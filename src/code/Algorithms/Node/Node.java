@@ -5,7 +5,7 @@ import code.Tools.Bottle;
 import java.util.ArrayList;
 
 public class Node {
-    // Attributes
+
     private ArrayList<Bottle> state;
     private Node parent;
     private String operator;

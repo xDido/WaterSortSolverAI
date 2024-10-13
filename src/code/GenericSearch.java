@@ -1,6 +1,5 @@
 package code;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 import code.Tools.Bottle;
@@ -10,20 +9,19 @@ public abstract class GenericSearch {
 
     protected ArrayList<Bottle> initialState;
 
-    protected ArrayList<String> setOfActions;
+    protected ArrayList<String> Operators;
 
     protected ArrayList<ArrayList<Bottle>> stateSpace;
 
-    protected ArrayList<ArrayDeque<Object>> goalTest;
+    abstract boolean isGoal(ArrayList<Bottle> state);
+    abstract int pathCost(String setOfActions);
 
- //   protected abstract int pathCost(ArrayDeque<Object> state, String action);
-
-    public GenericSearch(ArrayList<Bottle> initialState, ArrayList<String> setOfActions,
-            ArrayList<ArrayDeque<Object>> goalTest) {
+    public GenericSearch(ArrayList<Bottle> initialState, ArrayList<String> Operators) {
         this.initialState = initialState;
-        this.setOfActions = setOfActions;
-        this.goalTest = goalTest;
+        this.Operators = Operators;
         this.stateSpace = new ArrayList<>();
         this.stateSpace.add(initialState);
     }
+
+
 }

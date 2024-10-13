@@ -1,11 +1,14 @@
 package code.Tools;
 
-import code.Tools.Colors;
-
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Bottle {
+    public int getCapacity() {
+        return capacity;
+    }
+
     private final int capacity;
     private ArrayDeque<Colors> layers;
 
@@ -17,6 +20,10 @@ public class Bottle {
     public Bottle(int capacity) {
         this.capacity = capacity;
         this.layers = new ArrayDeque<>();
+    }
+
+    public ArrayDeque<Colors> getLayers() {
+        return layers;
     }
 
     public int getCurrentSize() {
@@ -39,13 +46,10 @@ public class Bottle {
         return capacity - layers.size();
     }
 
-    public void pourInto(Bottle target) {
-
-    }
 
     public void addLayer(Colors color) {
         if (!this.isFull()) {
-            layers.push(color);
+            layers.add(color);
         }
     }
 
@@ -75,24 +79,45 @@ public class Bottle {
                 ", layers=" + layers +
                 '}';
     }
+    public static void printBottles(ArrayList<Bottle> bottles) {
 
-    public static void main(String[] args) {
+        int maxHeight = bottles.stream().mapToInt(Bottle::getCurrentSize).max().orElse(0);
 
-        ArrayDeque<Colors> bottle1Layers = new ArrayDeque<>();
-        bottle1Layers.push(Colors.BLUE);
-        bottle1Layers.push(Colors.YELLOW);
-        bottle1Layers.push(Colors.RED);
-        bottle1Layers.push(Colors.BLUE);
-        ArrayDeque<Colors> bottle2Layers = new ArrayDeque<>();
-        bottle2Layers.push(Colors.BLUE);
+        String emptyLayer = " [      ] ";
 
-        Bottle bottle1 = new Bottle(4, bottle1Layers);
-        Bottle bottle2 = new Bottle(4, bottle2Layers);
-        Bottle bottle3 = new Bottle(4);
+        for (int layerIndex = maxHeight - 1; layerIndex >= 0; layerIndex--) {
+            for (Bottle bottle : bottles) {
+                ArrayDeque<Colors> layers = bottle.getLayers();
+                ArrayList<Colors> layerList = new ArrayList<>(layers);
 
-        System.out.println("Bottle 1: " + bottle1);
-        System.out.println("Bottle 2: " + bottle2);
-        System.out.println("Bottle 3: " + bottle3);
-
+                if (layerIndex < layerList.size()) {
+                    Colors color = layerList.get(layerList.size() - 1 - layerIndex);
+                    System.out.print(getLayerString(color) + " ");
+                } else {
+                    System.out.print(emptyLayer + " ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("--------".repeat(bottles.size()));
     }
+
+    private static String getLayerString(Colors color) {
+        switch (color) {
+            case RED:
+                return " [  RED ] ";
+            case GREEN:
+                return " [GREEN ] ";
+            case BLUE:
+                return " [ BLUE ] ";
+            case YELLOW:
+                return " [YELLOW] ";
+            case ORANGE:
+                return " [ORANGE] ";
+            default:
+                return " [      ] ";
+        }
+    }
+
+
 }
