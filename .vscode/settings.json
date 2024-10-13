@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": ["src"],
+    // "java.project.sourcePaths": ["src", "tests"],
+    "java.project.outputPath": "bin",
+    // "java.test.config": {
+    //     "classPaths": ["tests"]
+    // },
+    "java.project.referencedLibraries": ["lib/**/*.jar"]
+}
