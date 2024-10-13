@@ -79,9 +79,10 @@ public class Bottle {
     public static void main(String[] args) {
 
         ArrayDeque<Colors> bottle1Layers = new ArrayDeque<>();
+        bottle1Layers.push(Colors.BLUE);
+        bottle1Layers.push(Colors.YELLOW);
         bottle1Layers.push(Colors.RED);
         bottle1Layers.push(Colors.BLUE);
-
         ArrayDeque<Colors> bottle2Layers = new ArrayDeque<>();
         bottle2Layers.push(Colors.BLUE);
 

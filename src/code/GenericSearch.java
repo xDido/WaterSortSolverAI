@@ -16,7 +16,7 @@ public abstract class GenericSearch {
 
     protected ArrayList<ArrayDeque<Object>> goalTest;
 
-    protected abstract int pathCost(ArrayDeque<Object> state, String action);
+ //   protected abstract int pathCost(ArrayDeque<Object> state, String action);
 
     public GenericSearch(ArrayList<Bottle> initialState, ArrayList<String> setOfActions,
             ArrayList<ArrayDeque<Object>> goalTest) {
@@ -26,14 +26,4 @@ public abstract class GenericSearch {
         this.stateSpace = new ArrayList<>();
         this.stateSpace.add(initialState);
     }
-
-    public boolean isGoal(ArrayList<ArrayDeque<Object>> state) {
-        return false;
-
-    }
-
-    public abstract ArrayDeque<Object> applyAction(ArrayDeque<Object> state,
-            String action);
-
-    public abstract ArrayDeque<Object> search();
 }
