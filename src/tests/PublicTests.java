@@ -465,11 +465,4 @@ class Checker {
         }
         return t() && this.b == _a;
     }
-
-    public static void main(String[] args) {
-        String grid1 = "5;" + "4;" + "b,y,r,b;" + "b,y,r,r;" + "y,r,b,y;" + "e,e,e,e;" + "e,e,e,e;";
-        String solution = "pour_0_3,pour_0_4,pour_1_3,pour_1_4,pour_0_1,pour_2_4,pour_2_1,pour_2_0;8;2491;";
-        Checker pc = new Checker(grid1);
-        System.out.println(pc.applyPlan(grid1, solution));
-    }
 }

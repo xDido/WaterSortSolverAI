@@ -1,6 +1,6 @@
 package code;
 
-public class App {
+public class main {
     public static void main(String[] args) throws Exception {
         String grid0 = "3;" +
                 "4;" +
