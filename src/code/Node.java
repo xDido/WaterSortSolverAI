@@ -1,6 +1,7 @@
 package code;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static code.GenericSearch.initialStateHandler;
 
@@ -99,6 +100,27 @@ public class Node {
         }
         return children;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Node other = (Node) obj;
+        return Objects.equals(this.state, other.state);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(state);
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "state=" + state +
+                ", operator='" + operator + '\'' +
+                ", depth=" + depth +
+                ", pathCost=" + pathCost +
+                '}';
+    }
 
 }

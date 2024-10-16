@@ -1,5 +1,6 @@
 package code;
 
+import java.util.Objects;
 import java.util.Stack;
 import java.util.EmptyStackException;
 
@@ -59,5 +60,17 @@ public class Bottle {
         Bottle copy = new Bottle(this.capacity);
         copy.layers = (Stack<Color>) this.layers.clone();
         return copy;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Bottle)) return false;
+        Bottle other = (Bottle) obj;
+        return Objects.equals(this.layers, other.layers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(layers);
     }
 }

@@ -18,68 +18,6 @@ public class GenericSearch {
         nodeCount = 0;
     }
 
-    public String generalSearch(String initialState, String strategy) {
-        Node initialNode = new Node(initialStateHandler(initialState), null, null, 0, 0);
-        ArrayList<Node> nodes = new ArrayList<>();
-        nodes.add(initialNode);
-        while (!nodes.isEmpty()) {
-            System.out.println("went to while");
-            Node currentNode = nodes.getFirst();
-            if (currentNode.isGoal()) {
-                return formatSolution(currentNode);
-            } else {
-                switch (strategy) {
-                    case "BF":
-                        nodes = BFS(nodes);
-                        break;
-                    case "DF":
-                        System.out.println("went to dfs");
-                        nodes = DFS(nodes);
-                        break;
-                    case "ID":
-                        break;
-                    case "UC":
-                        break;
-                    case "GR":
-                        break;
-                    case "AS":
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        return "NOSOLUTION";
-
-    }
-
-    private ArrayList<Node> BFS(ArrayList<Node> nodes) {
-
-        Node firstNode = nodes.removeFirst();
-        if (!expandedNodes.contains(firstNode)) {
-            expandedNodes.add(firstNode);
-            ArrayList<Node> children = firstNode.expandChildren();
-            nodeCount += children.size();
-            nodes.addAll(children);
-        }
-        return nodes;
-    }
-
-    private ArrayList<Node> DFS(ArrayList<Node> nodes) {
-        //INFINITE LOOP
-        Node firstNode = nodes.removeFirst();
-        if (!expandedNodes.contains(firstNode)) {
-            expandedNodes.add(firstNode);
-            ArrayList<Node> children = firstNode.expandChildren();
-            nodeCount += children.size();
-            System.out.println("expanded nodes: " + children.size());
-            for (int i = children.size() - 1; i >= 0; i--) {
-                nodes.addFirst(children.get(i));
-            }
-        }
-        return nodes;
-    }
-
     private String formatSolution(Node goalNode) {
         List<Node> path = new ArrayList<>();
         Node current = goalNode;
@@ -136,6 +74,82 @@ public class GenericSearch {
         }
         return bottles;
     }
+
+    public String generalSearch(String initialState, String strategy) {
+        Node initialNode = new Node(initialStateHandler(initialState), null, null, 0, 0);
+        ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(initialNode);
+        while (!nodes.isEmpty()) {
+
+            Node currentNode = nodes.getFirst();
+            if (currentNode.isGoal()) {
+                return formatSolution(currentNode);
+            } else {
+                switch (strategy) {
+                    case "BF":
+                        nodes = BFS(nodes);
+                        break;
+                    case "DF":
+                        nodes = DFS(nodes);
+                        break;
+                    case "ID":
+                        break;
+                    case "UC":
+                        break;
+                    case "GR":
+                        break;
+                    case "AS":
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return "NOSOLUTION";
+
+    }
+
+    private ArrayList<Node> BFS(ArrayList<Node> nodes) {
+
+        Node firstNode = nodes.removeFirst();
+        if (!expandedNodes.contains(firstNode)) {
+            expandedNodes.add(firstNode);
+            ArrayList<Node> children = firstNode.expandChildren();
+            nodeCount += children.size();
+            nodes.addAll(children);
+            for (Node child : children) {
+                if (!expandedNodes.contains(child)) {
+                    nodes.addLast(child);
+                }
+            }
+        }
+        return nodes;
+    }
+
+    private ArrayList<Node> DFS(ArrayList<Node> nodes) {
+        Node firstNode = nodes.removeFirst();
+
+        if (!expandedNodes.contains(firstNode)) {
+            expandedNodes.add(firstNode);
+
+            ArrayList<Node> children = firstNode.expandChildren();
+            nodeCount += children.size();
+
+
+            for (Node child : children) {
+                if (!expandedNodes.contains(child)) {
+                    nodes.addFirst(child);
+                }
+            }
+        } else {
+            System.out.println("Skipping already expanded node: " + firstNode);
+        }
+        return nodes;
+    }
+
+
+
+
 
 
 
