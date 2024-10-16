@@ -78,9 +78,9 @@ public class GenericSearch {
     public String generalSearch(String initialState, String strategy) {
         Node initialNode = new Node(initialStateHandler(initialState), null, null, 0, 0);
         ArrayList<Node> nodes = new ArrayList<>();
+        int depth = 0;
         nodes.add(initialNode);
         while (!nodes.isEmpty()) {
-
             Node currentNode = nodes.getFirst();
             if (currentNode.isGoal()) {
                 return formatSolution(currentNode);
@@ -93,8 +93,10 @@ public class GenericSearch {
                         nodes = DFS(nodes);
                         break;
                     case "ID":
+                        nodes = IDS(nodes, depth);
                         break;
                     case "UC":
+                        nodes = UCS(nodes);
                         break;
                     case "GR":
                         break;
@@ -104,12 +106,14 @@ public class GenericSearch {
                         break;
                 }
             }
+            depth = nodes.getFirst().getDepth();
         }
         return "NOSOLUTION";
 
     }
 
     private ArrayList<Node> BFS(ArrayList<Node> nodes) {
+
 
         Node firstNode = nodes.removeFirst();
         if (!expandedNodes.contains(firstNode)) {
@@ -147,11 +151,44 @@ public class GenericSearch {
         return nodes;
     }
 
+    public ArrayList<Node> UCS(ArrayList<Node> nodes) {
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>((n1, n2) -> {
+            return Integer.compare(n1.getPathCost(), n2.getPathCost());
+        });
+        priorityQueue.addAll(nodes);
+
+        Node currentNode = priorityQueue.poll();
+        if (!expandedNodes.contains(currentNode)) {
+            expandedNodes.add(currentNode);
+            ArrayList<Node> children = currentNode.expandChildren();
+            nodeCount += children.size();
+            for (Node child : children) {
+                if (!expandedNodes.contains(child)) {
+                    priorityQueue.add(child); // Add children to the priority queue
+                }
+            }
+        }
+        return new ArrayList<>(priorityQueue);
+    }
+
+    public ArrayList<Node> IDS(ArrayList<Node> nodes, int depth) {
+        Node firstNode = nodes.removeFirst();
+
+        if (!expandedNodes.contains(firstNode) || firstNode.getDepth() == depth) {
+            expandedNodes.add(firstNode);
+
+            ArrayList<Node> children = firstNode.expandChildren();
+            nodeCount += children.size();
 
 
-
-
-
-
-
+            for (Node child : children) {
+                if (!expandedNodes.contains(child)) {
+                    nodes.addFirst(child);
+                }
+            }
+        } else {
+            System.out.println("Skipping already expanded node: " + firstNode);
+        }
+        return nodes;
+    }
 }
