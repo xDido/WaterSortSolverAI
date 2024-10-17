@@ -174,7 +174,7 @@ public class GenericSearch {
     public ArrayList<Node> IDS(ArrayList<Node> nodes, int depth) {
         Node firstNode = nodes.removeFirst();
 
-        if (!expandedNodes.contains(firstNode) || firstNode.getDepth() == depth) {
+        if (!expandedNodes.contains(firstNode) && firstNode.getDepth() <= depth) {
             expandedNodes.add(firstNode);
 
             ArrayList<Node> children = firstNode.expandChildren();

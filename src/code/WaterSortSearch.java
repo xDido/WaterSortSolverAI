@@ -25,7 +25,7 @@ public class WaterSortSearch extends GenericSearch {
     }
 
     public static void main(String[] args) {
-        System.out.println(solve(grid4, "ID", true));
+        System.out.println(solve(grid0, "DF", true));
     }
 
 }
