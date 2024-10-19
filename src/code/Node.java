@@ -2,8 +2,7 @@ package code;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static code.GenericSearch.initialStateHandler;
+import java.util.Stack;
 
 public class Node {
 
@@ -21,9 +20,6 @@ public class Node {
         this.pathCost = pathCost;
     }
 
-    public ArrayList<Bottle> getState() {
-        return state;
-    }
 
     public Node getParent() {
         return parent;
@@ -51,11 +47,8 @@ public class Node {
     }
 
     public boolean isPourable(Bottle source, Bottle destination) {
-        return (!source.isEmpty() &&
-                !destination.isFull() &&
-                (destination.isEmpty() || source.getTopLayer().equals(destination.getTopLayer())));
+        return (!source.isEmpty() && !destination.isFull() && (destination.isEmpty() || source.getTopLayer().equals(destination.getTopLayer())));
     }
-
 
     public int Pour(Bottle source, Bottle destination) {
         int pourCount = 0;
@@ -100,10 +93,55 @@ public class Node {
         }
         return children;
     }
+
+    public int getFirstHeuristic() {
+        // Number of bottles with more than one color (non-homogenuous)
+        int heuristicValue = 0;
+        for (Bottle bottle : state) {
+            if (!bottle.isHomogeneous()) {
+                heuristicValue++;
+            }
+        }
+        return heuristicValue;
+    }
+
+    public int getSecondHeuristic() {
+        // Number of misplaced liquid layers
+
+        int misplacedCount = 0;
+
+        for (Bottle bottle : state) {
+            Stack<Color> layers = bottle.getLayers();
+
+            if (bottle.isHomogeneous()) {
+                continue;
+            }
+
+            Color topColor = null;
+
+            for (Color currentLayer : layers) {
+                if (topColor == null) {
+                    topColor = currentLayer;
+                    continue;
+                }
+
+                if (!currentLayer.equals(topColor)) {
+                    misplacedCount++;
+                }
+
+                topColor = currentLayer;
+            }
+        }
+
+        return misplacedCount;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Node other = (Node) obj;
         return Objects.equals(this.state, other.state);
     }

@@ -2,12 +2,12 @@ package code;
 
 import java.util.Objects;
 import java.util.Stack;
-import java.util.EmptyStackException;
 
 public class Bottle {
 
     private final int capacity;
     private Stack<Color> layers;
+    private int mismatchCount;
 
     public Bottle(int capacity) {
         this.capacity = capacity;
@@ -61,6 +61,7 @@ public class Bottle {
         copy.layers = (Stack<Color>) this.layers.clone();
         return copy;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
